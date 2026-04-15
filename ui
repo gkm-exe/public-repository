@@ -1818,6 +1818,15 @@ function library:AddWindow(text)
 			wait()
 			_PARENT:TweenSize(UDim2.fromOffset(_PARENT.AbsoluteSize.X,  LIST.AbsoluteContentSize.Y + 15),Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0, true) 
 			UpdateMainSize(nil,true)
+
+			if activated then
+		        color.BackgroundColor3 = Color3.fromRGB(84, 122, 181)
+		        TextLabel.TextColor3 = Color3.fromRGB(152, 152, 152)
+		    else
+		        color.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+		        TextLabel.TextColor3 = Color3.fromRGB(84, 84, 84)
+		    end
+
 			return y
 
 		end
