@@ -1161,7 +1161,7 @@ function library:AddWindow(text)
 		Section.AnchorPoint = Vector2.new(0.5, 0.5)
 		Section.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
 		Section.BorderSizePixel = 0
-		Section.ClipsDescendants = true
+		Section.ClipsDescendants = false
 		Section.Position = UDim2.new(0.498745143, 0, 0.502499998, 0)    
 		Section.Size = UDim2.new(1.003,0,1,0)
 		Section.ZIndex = 4
@@ -2199,6 +2199,20 @@ function library:AddWindow(text)
 			SECTIONHOLDER:TweenSize(UDim2.fromOffset(SECTIONHOLDER.AbsoluteSize.X,  SECTION2UILIB.AbsoluteContentSize.Y + 42),Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0, true) 
 			wait()
 			_PARENT:TweenSize(UDim2.fromOffset(_PARENT.AbsoluteSize.X,  LIST.AbsoluteContentSize.Y + 15),Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0, true) 
+
+			local function RefreshSectionSize()
+				task.wait() -- let layout update once
+				SECTIONHOLDER.Size = UDim2.fromOffset(SECTIONHOLDER.AbsoluteSize.X, SECTION2UILIB.AbsoluteContentSize.Y + 42)
+				_PARENT.Size = UDim2.new(_PARENT.Size.X.Scale, _PARENT.Size.X.Offset, 0, LIST.AbsoluteContentSize.Y + 15)
+				UpdateMainSize(nil, true)
+			end
+			
+			SECTION2UILIB:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(RefreshSectionSize)
+			LIST:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+				_PARENT.Size = UDim2.new(_PARENT.Size.X.Scale, _PARENT.Size.X.Offset, 0, LIST.AbsoluteContentSize.Y + 15)
+				UpdateMainSize(nil, true)
+			end)
+
 			UpdateMainSize(nil,true)
 		end
 		function inside:AddButton(Text,Callback)
